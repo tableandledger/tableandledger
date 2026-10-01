@@ -4,7 +4,11 @@ date: 2026-10-01
 category: Field Note
 slug: the-light-might-be-a-train
 lede: "Every new AI startup, tool, wrapper, and layer is on a train. The people who laid the track have stopped laying it, and no one told the train. Three business owners who are not programmers spent an hour comparing software we built ourselves. Here is how it works, who it is bad news for, and where the light is."
+image: /images/the-light-might-be-a-train/tunnel-headlamp.jpg
 ---
+
+![A lone figure stands between the rails inside a dark brick railway tunnel, one hand raised toward a bright headlamp and steam at the tunnel mouth](/images/the-light-might-be-a-train/tunnel-headlamp.jpg)
+*This image is AI generated. In this example, AI allows people to produce photorealistic marketing visuals without a budget.*
 
 Every new AI startup, tool, wrapper, and layer is on a train. The people who laid the track have stopped laying it, and no one told the train.
 
