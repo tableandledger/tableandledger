@@ -3,7 +3,7 @@ title: Build Your POS Your Way. Yes, Even Which Side the Cart Is On.
 date: 2026-10-28
 category: Field Note
 slug: build-your-pos-your-way
-lede: "In May I said we would know by the end of the year whether Block's drastic flattening of the management hierarchy would bring speed and innovation or just a cost cut. It is October 28. Square has shipped fifteen public releases on a two-week clock without a miss, and the latest one lets you pick which side of the screen the cart sits on. That sounds small, but if you have a restaurant or ever ran a register, you know it is bigger than that. Here is the ledger, and here is what AI doing something for business owners really looks like."
+lede: "In May I said we would know by the end of the year whether Block's drastic flattening of the management hierarchy would bring speed and innovation or just a cost cut. It is October 28. Square has shipped fifteen public releases on a two-week clock without a miss, and the latest one lets you pick which side of the screen the cart sits on. That sounds small, but if you have a restaurant or have ever run a register, you know it is bigger than that. Here is the ledger, and here is what AI doing something for business owners really looks like."
 ---
 
 <div class="stat-row">
@@ -21,13 +21,13 @@ lede: "In May I said we would know by the end of the year whether Block's drasti
     </div>
 </div>
 
-Square shipped a setting last week that lets you choose whether the cart sits on the left or the right side of the checkout screen. Each mode keeps its own choice, so your bar can run it one way and your quick-service window can run it the other.  Had your favorite layout in your former job or former pos provider?  No problem, now you can make it your way.
+Square shipped a setting last week that lets you choose whether the cart sits on the left or the right side of the checkout screen. Each mode keeps its own choice, so your bar can run it one way and your quick-service window can run it the other. Had your favorite layout in your former job or former POS provider? No problem. Now you can make it your way.
 
 If you have never stood behind a register, you think that is no big deal.
 
 If you have stood behind one, you already know. The cart side decides which hand reaches, which way your eyes travel, and whether the kid on his second shift is tapping items or tapping the void where he thought the items were. A left-handed bartender on a right-cart screen fights the register all night. The screen was designed once, at install, for everybody, forever, and you lived with it. For twenty years I lived with it.
 
-So no, it is not small. This is the manifestation of the prediction in real time.
+So no, it is not small. This is the bet I made in May, landing in real time.
 
 ## The bet I made in May
 
@@ -43,13 +43,13 @@ The smaller company ships more, ships on a clock, says so in public every two we
 
 </div>
 
-Did you read that?  They don't call it AI, because it isn't AI.
+Did you read that? They don't call it AI, because it isn't AI.
 
-## Where the AI actually is
+## Where the AI actually is: upstream
 
-I look at the AI every day, and you know what those things are features built with AI help, they are not AI.  Isn't that the real thing that owners want from tech?  They want it to do something not just add to a to do list.  Block figured this out, they took the to do list as needing to get done and here we have it. Features and customizations rolling out every two weeks, based off what sellers want, not someone who thinks they know best.
+I look at AI every day, and you know what? Those are features built with AI help. They are not AI. Is that not what owners actually want from tech? They want it to do something, not add to a to-do list. Block figured that out. They treated the to-do list as work that needed to get done, and here we have it: features and customizations rolling out every two weeks, based on what sellers asked for, not what someone who thinks they know best decided.
 
-Everyone keeps waiting for AI to show up for business owners as a chatbot in the corner of the screen. Some of that is coming and some of it is already here. But that is not where the AI is doing the work in these notes. The AI is upstream. It is in the fact that a company half the size it was in February ships every two weeks like a metronome and the output is a cart you can put on the left.  The AI is there to help you, answer questions, but these are hard features being put into place in the real world.
+Everyone keeps waiting for AI to show up for business owners as a chatbot in the corner of the screen. Some of that is coming and some of it is already here. But that is not where the AI is doing the work in these notes. The AI is upstream. It is in the fact that a company half the size it was in February ships every two weeks like a metronome and the output is a cart you can put on the left. The AI is there to help you and answer questions, but these are real features being put into place in the real world.
 
 That is what AI actually doing something for a business owner looks like. Not a feature with a sparkle icon. A platform that got fast enough to care about your left hand.
 
@@ -77,13 +77,13 @@ Same release: open checks now count in the Sales report by default. Your "sales 
 
 That is what a two-week cadence looks like from the seller chair. Most of it is for you. Some of it is at you. All of it arrives on a schedule you can plan around, which was never true before.
 
-## The counter argument (and no not the front counter through the pass).
+## The counter argument (and no, not the front counter through the pass)
 
-Is too much choice actually bad? There is a paradox of choice in menu engineering.  Some restaurants defy it, some die by it.  What is true is, the same system that is infinitely customizable has the base setup.  You don't have to choose to have it, but the thing Block is doing is giving you the choice.
+Is too much choice actually bad? There is a paradox of choice in menu engineering. Some restaurants defy it, some die by it. What is true: the same system that is infinitely customizable still ships with a base setup. You do not have to touch any of it. What Block is doing is giving you the choice.
 
 ## Where I stand
 
-Same as in May. I am a Square Champion, I beta test, I run my operations on it, my consulting revolves around it, and I document what doesn't work on the line on Friday night in the places where the people who can fix it are listening. I chose the platform years ago because the barrier to entry was low and the APIs were open to an operator with no engineering team. The product was not perfect then and it is not perfect now.  
+Same as in May. I am a Square Champion, I beta test, I run my operations on it, my consulting revolves around it, and I document what does not work on the line on Friday night in the places where the people who can fix it are listening. I chose the platform years ago because the barrier to entry was low and the APIs were open to an operator with no engineering team. The product was not perfect then and it is not perfect now.
 
 But the bet is settled. The cuts did not slow the shipping. They preceded the fastest, most regular public release cadence I have seen from a point-of-sale company in eleven years on these systems. Occam's Razor still sits at the top of the register.
 
