@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Concierge | Table &amp; Ledger</title>
+    <meta name="description" content="Send us the paperwork. We place the signature fields, send it out, and hand you back the completed copy.">
+    <meta name="author" content="Donnie McClanahan">
+    <meta name="robots" content="noindex">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+
+    <!-- Turnstile must load from this exact URL. Do not proxy or cache it. -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    <style>
+        :root {
+            --study-deep: #121611;
+            --study: #1a1f1a;
+            --study-raised: #213624;
+            --brass: #b08a3e;
+            --brass-bright: #cda45c;
+            --lamp: #dcba72;
+            --parchment: #f3ead6;
+            --heading: #f3ead6;
+            --ink: #e8e0cd;
+            --ink-dim: #b8ad93;
+            --ink-faint: #7d7458;
+            --oxblood: #7a2e2a;
+            --leather: #5a3a25;
+            --rule: #3a3d30;
+            --rule-faint: #2a2e23;
+            --error: #c76b5e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 18px; scroll-behavior: smooth; }
+        body {
+            font-family: 'Newsreader', Georgia, serif;
+            background:
+                radial-gradient(ellipse 80% 55% at 72% 8%, rgba(176, 138, 62, 0.08), transparent 60%),
+                radial-gradient(ellipse 60% 40% at 15% 92%, rgba(122, 46, 42, 0.05), transparent 60%),
+                var(--study-deep);
+            background-attachment: fixed;
+            color: var(--ink);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            opacity: 0.05; mix-blend-mode: overlay; pointer-events: none; z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+        ::selection { background: var(--brass); color: var(--study-deep); }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--study-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--leather); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brass); }
+
+        /* --- HEADER --- */
+        header { padding: 2.75rem 0 1.5rem; border-bottom: 1px solid var(--brass); }
+        .masthead { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; }
+        .brand { font-family: 'Bodoni Moda', Didot, serif; font-size: 1.7rem; font-weight: 500; color: var(--heading); text-decoration: none; letter-spacing: 0.01em; }
+        .brand span { color: var(--brass); font-style: italic; }
+        .tagline { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--brass); letter-spacing: 0.16em; text-transform: uppercase; }
+
+        nav { padding: 1.1rem 0; display: flex; gap: 1.85rem; border-bottom: 1px solid var(--rule); font-family: 'JetBrains Mono', monospace; font-size: 0.71rem; text-transform: uppercase; letter-spacing: 0.15em; flex-wrap: wrap; }
+        nav a { color: var(--ink-dim); text-decoration: none; transition: color 0.2s ease; }
+        nav a:hover { color: var(--brass-bright); }
+
+        /* --- PAGE HEADER --- */
+        .page-header { padding: 3.75rem 0 2rem; }
+        .page-header .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--brass); display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.5rem; }
+        .page-header .section-label::before { content: ''; width: 28px; height: 1px; background: var(--brass); }
+        .page-header h1 { font-family: 'Bodoni Moda', Didot, serif; font-size: clamp(2.1rem, 4.5vw, 2.9rem); line-height: 1.08; letter-spacing: -0.015em; color: var(--heading); margin-bottom: 1.5rem; max-width: 640px; font-weight: 500; text-wrap: balance; }
+        .page-header .lede { font-size: 1.12rem; line-height: 1.7; color: var(--ink-dim); max-width: 620px; }
+        .page-header .lede + .lede { margin-top: 0.75rem; }
+
+        .lede a, .success-state p a { color: var(--brass-bright); text-decoration: none; border-bottom: 1px solid rgba(205,164,92,0.4); transition: color 0.2s ease; }
+        .lede a:hover, .success-state p a:hover { color: var(--lamp); }
+
+        .rule { border: none; border-top: 1px solid var(--rule); margin: 0; }
+        .rule--heavy { border-top: 1px solid var(--brass); }
+
+        /* --- FORM --- */
+        .form-wrap { padding: 3rem 0 4rem; }
+        form { display: grid; gap: 1.75rem; max-width: 620px; }
+        .field { display: grid; gap: 0.5rem; }
+        .field label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-dim); }
+        .field .optional { color: var(--ink-faint); text-transform: none; letter-spacing: 0.02em; font-size: 0.7rem; margin-left: 0.5rem; font-style: italic; }
+        .field input[type="text"],
+        .field input[type="email"],
+        .field select,
+        .field textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--rule);
+            padding: 0.6rem 0;
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.02rem;
+            color: var(--parchment);
+            border-radius: 0;
+            transition: border-color 0.2s ease;
+        }
+        .field textarea { resize: vertical; min-height: 7rem; line-height: 1.6; }
+        .field input::placeholder, .field textarea::placeholder { color: var(--ink-faint); }
+        .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-bottom-color: var(--brass-bright); }
+        .field select {
+            -webkit-appearance: none; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23cda45c' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.25rem center;
+            padding-right: 2rem;
+        }
+        .field select option { background: var(--study); color: var(--parchment); }
+
+        .honeypot { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+        .submit-row { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        button[type="submit"] {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--study-deep);
+            background: var(--brass);
+            border: 1px solid var(--brass);
+            padding: 0.95rem 1.7rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        button[type="submit"]:hover { background: var(--brass-bright); border-color: var(--brass-bright); box-shadow: 0 0 24px rgba(176,138,62,0.22); }
+        button[type="submit"]:disabled { background: var(--leather); border-color: var(--leather); color: var(--ink-dim); cursor: wait; box-shadow: none; }
+        .submit-note { font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-faint); }
+
+        /* --- STATE MESSAGES --- */
+        .form-message {
+            margin-top: 1.5rem; padding: 1rem 1.25rem;
+            font-family: 'Newsreader', Georgia, serif; font-size: 0.95rem;
+            border-left: 2px solid var(--rule); background: rgba(0,0,0,0.18); display: none;
+        }
+        .form-message.is-error { display: block; border-left-color: var(--error); color: var(--error); }
+        .success-state { display: none; padding: 2rem 0; }
+        .success-state h2 { font-family: 'Bodoni Moda', Didot, serif; font-size: 1.9rem; line-height: 1.25; margin-bottom: 1rem; font-weight: 500; color: var(--heading); }
+        .success-state h2 em { font-style: italic; color: var(--brass-bright); }
+        .success-state p { color: var(--ink-dim); max-width: 600px; margin-bottom: 1rem; }
+        .success-state .back-link { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--brass); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s ease; display: inline-block; margin-top: 0.75rem; }
+        .success-state .back-link:hover { border-bottom-color: var(--brass); color: var(--brass-bright); }
+
+        .is-submitted form { display: none; }
+        .is-submitted .success-state { display: block; }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--brass); padding: 2.25rem 0 3rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.64rem;
+            text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-faint);
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+        }
+        footer a { color: var(--ink-faint); text-decoration: none; }
+        footer a:hover { color: var(--brass); }
+
+        /* --- SIGN CONCIERGE ADDITIONS --- */
+        .field input[type="date"] {
+            width: 100%;
+            max-width: 14rem;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--rule);
+            padding: 0.6rem 0;
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.02rem;
+            color: var(--parchment);
+            border-radius: 0;
+            color-scheme: dark;
+        }
+        .field input[type="date"]:focus { outline: none; border-bottom-color: var(--brass-bright); }
+
+        .field input[type="file"] {
+            width: 100%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.74rem;
+            color: var(--ink-dim);
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        .field input[type="file"]::file-selector-button {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--brass-bright);
+            background: transparent;
+            border: 1px solid var(--brass);
+            padding: 0.55rem 1rem;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+        .field-note { font-size: 0.86rem; color: var(--ink-faint); line-height: 1.5; }
+        .field-note.is-error { color: var(--error); }
+        .field-note.is-ok { color: var(--ink-dim); }
+
+        .group-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--brass); display: flex; align-items: center; gap: 0.85rem; margin-top: 0.75rem; }
+        .group-label::before { content: ''; width: 28px; height: 1px; background: var(--brass); }
+
+        .signers { display: grid; gap: 1.25rem; }
+        .signer-row {
+            border: 1px solid var(--rule-faint);
+            border-left: 2px solid var(--leather);
+            padding: 1rem 1.25rem 1.25rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 9rem;
+            gap: 1rem 1.25rem;
+            align-items: end;
+            background: rgba(0,0,0,0.12);
+        }
+        .signer-head { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; }
+        .signer-head span { font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-faint); }
+        .ghost-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--brass-bright);
+            background: transparent;
+            border: 1px solid var(--rule);
+            padding: 0.55rem 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        .ghost-btn:hover { border-color: var(--brass); color: var(--lamp); }
+        .ghost-btn:disabled { color: var(--ink-faint); border-color: var(--rule-faint); cursor: not-allowed; }
+        .ghost-btn--small { padding: 0.3rem 0.7rem; font-size: 0.6rem; }
+        .signers-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+        .check-row { display: flex; gap: 0.85rem; align-items: flex-start; }
+        .check-row input[type="checkbox"] { margin-top: 0.35rem; width: 1.05rem; height: 1.05rem; accent-color: var(--brass); flex-shrink: 0; }
+        .check-row label { font-size: 1rem; color: var(--parchment); line-height: 1.5; }
+
+        .terms {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--ink-faint);
+            border-top: 1px solid var(--rule);
+            padding-top: 1.1rem;
+        }
+        .terms p { margin-bottom: 0.5rem; }
+        .terms ul { padding-left: 1.1rem; margin-bottom: 0.5rem; }
+        .terms li { margin-bottom: 0.3rem; }
+        .terms strong { color: var(--ink-dim); font-weight: 500; }
+
+        .turnstile-wrap { min-height: 65px; }
+
+        .job-id {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--lamp);
+            background: rgba(0,0,0,0.25);
+            border: 1px solid var(--rule);
+            padding: 0.5rem 0.8rem;
+            margin: 0.25rem 0 1rem;
+            word-break: break-all;
+            user-select: all;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 700px) {
+            html { font-size: 16px; }
+            .page-header h1 { font-size: 1.9rem; }
+            .masthead { flex-direction: column; gap: 0.25rem; }
+            nav { gap: 1.25rem; }
+            .signer-row { grid-template-columns: 1fr; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <div class="masthead">
+                <a href="/" class="brand">Table <span>&amp;</span> Ledger</a>
+                <span class="tagline">AI Consulting for Restaurant Operations</span>
+            </div>
+        </header>
+
+        <nav>
+            <a href="/#about">About</a>
+            <a href="/blog/">Field Notes</a>
+            <a href="/#work">Published Work</a>
+            <a href="/#services">What I Do</a>
+            <a href="/ask/">Ask</a>
+            <a href="/waitlist/">Waitlist</a>
+        </nav>
+
+        <section class="page-header">
+            <span class="section-label">Sign Concierge</span>
+            <h1>Send us the paperwork. We'll get it signed.</h1>
+            <p class="lede">Upload the PDF and tell us who signs. We place the signature fields and send it out, your signers sign in the browser, and you get the completed copy back.</p>
+            <p class="lede">No software to learn and no account to make. If something looks off before it goes out, we ask you first.</p>
+        </section>
+
+        <hr class="rule rule--heavy">
+
+        <section class="form-wrap" id="form-section">
+
+            <form id="sign-form" novalidate>
+                <!-- Honeypot: humans never see this. Bots fill it, we drop them. -->
+                <div class="honeypot" aria-hidden="true">
+                    <label for="company_website">Company website (leave blank)</label>
+                    <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off">
+                </div>
+
+                <span class="group-label">You</span>
+
+                <div class="field">
+                    <label for="name">Your name</label>
+                    <input type="text" id="name" name="name" required maxlength="200" autocomplete="name">
+                </div>
+
+                <div class="field">
+                    <label for="business">Business name</label>
+                    <input type="text" id="business" name="business" required maxlength="200" autocomplete="organization">
+                </div>
+
+                <div class="field">
+                    <label for="email">Your email</label>
+                    <input type="email" id="email" name="email" required maxlength="200" autocomplete="email">
+                </div>
+
+                <span class="group-label">The document</span>
+
+                <div class="field">
+                    <label for="doc_name">Document name</label>
+                    <input type="text" id="doc_name" name="doc_name" required maxlength="200" placeholder="For example: Catering agreement, spring event">
+                </div>
+
+                <div class="field">
+                    <label for="pdf">PDF</label>
+                    <input type="file" id="pdf" name="pdf" accept="application/pdf" required>
+                    <span class="field-note" id="pdf-note">One PDF, up to 20 MB and 50 pages.</span>
+                </div>
+
+                <span class="group-label">Signers</span>
+
+                <div class="signers" id="signers"></div>
+
+                <div class="signers-actions">
+                    <button type="button" class="ghost-btn" id="add-signer">Add signer</button>
+                    <span class="field-note">Up to 5 signers. Use a number for signing order when one person has to sign before the next.</span>
+                </div>
+
+                <span class="group-label">Details</span>
+
+                <div class="field">
+                    <label for="due_date">Due date <span class="optional">optional</span></label>
+                    <input type="date" id="due_date" name="due_date">
+                </div>
+
+                <div class="field">
+                    <label for="notes">Notes <span class="optional">optional</span></label>
+                    <textarea id="notes" name="notes" rows="5" maxlength="5000" placeholder="Anything we should know, for example which page needs initials"></textarea>
+                </div>
+
+                <div class="check-row">
+                    <input type="checkbox" id="no_medical" name="no_medical" value="yes" required>
+                    <label for="no_medical">This document contains no medical or patient information.</label>
+                </div>
+
+                <div class="terms">
+                    <p><strong>Before you send:</strong></p>
+                    <ul>
+                        <li>No medical, patient, or resident health information. This is not a HIPAA service.</li>
+                        <li>No government ID numbers, card numbers, or bank account numbers in uploaded documents.</li>
+                        <li>Documents are processed by Table &amp; Ledger and its providers (Cloudflare, DocuSeal, Anthropic, and the email relay) only to prepare and deliver them for signature.</li>
+                        <li>E-signatures are collected under ESIGN and UETA. You are responsible for whether a given document may be signed electronically.</li>
+                    </ul>
+                    <p>Submitting this form means you agree to these terms.</p>
+                </div>
+
+                <div class="turnstile-wrap">
+                    <!-- Production Turnstile site key (public). The widget is named Sign Concierge in the Cloudflare dashboard. -->
+                    <div class="cf-turnstile" id="turnstile-widget" data-sitekey="0x4AAAAAAFyWeh-AIJW_VSAy" data-theme="dark"></div>
+                </div>
+
+                <div class="submit-row">
+                    <button type="submit" id="submit-btn">Send for signing</button>
+                    <span class="submit-note">We check every document before it goes out</span>
+                </div>
+
+                <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
+            </form>
+
+            <div class="success-state" id="success-state">
+                <h2>Received. We'll <em>prepare this for signing</em>.</h2>
+                <p>Your job id:</p>
+                <code class="job-id" id="job-id"></code>
+                <p>Keep this id if you need to ask about the document.</p>
+                <a href="/" class="back-link">Back to the homepage &rarr;</a>
+            </div>
+
+        </section>
+
+        <footer>
+            <span>&copy; 2026 Table &amp; Ledger</span>
+            <a href="/">tableandledger.com</a>
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            const MAX_BYTES = 20 * 1024 * 1024;
+            const MAX_PAGES = 50;
+            const MAX_SIGNERS = 5;
+            const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // pdf.js, pinned. If it fails to load, the page check is skipped
+            // and the server does its own best-effort count.
+            const PDFJS_BASE = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/';
+
+            const form = document.getElementById('sign-form');
+            const btn = document.getElementById('submit-btn');
+            const msg = document.getElementById('form-message');
+            const section = document.getElementById('form-section');
+            const pdfInput = document.getElementById('pdf');
+            const pdfNote = document.getElementById('pdf-note');
+            const signersEl = document.getElementById('signers');
+            const addBtn = document.getElementById('add-signer');
+            const btnLabel = btn.textContent;
+            const PDF_HINT = pdfNote.textContent;
+
+            function showError(text) {
+                msg.textContent = text;
+                msg.classList.add('is-error');
+            }
+            function clearError() {
+                msg.textContent = '';
+                msg.classList.remove('is-error');
+            }
+            function setPdfNote(text, kind) {
+                pdfNote.textContent = text;
+                pdfNote.classList.remove('is-error', 'is-ok');
+                if (kind) pdfNote.classList.add(kind);
+            }
+            function resetButton() {
+                btn.disabled = false;
+                btn.textContent = btnLabel;
+            }
+
+            // --- Signers ---
+            let rowSeq = 0;
+            function addSignerRow() {
+                if (signersEl.children.length >= MAX_SIGNERS) return null;
+                const n = ++rowSeq;
+                const row = document.createElement('fieldset');
+                row.className = 'signer-row';
+                row.innerHTML =
+                    '<div class="signer-head"><span class="signer-title"></span>' +
+                    '<button type="button" class="ghost-btn ghost-btn--small remove-signer">Remove</button></div>' +
+                    '<div class="field"><label for="signer_name_' + n + '">Name</label>' +
+                    '<input type="text" id="signer_name_' + n + '" name="signer_name" required maxlength="200" autocomplete="off"></div>' +
+                    '<div class="field"><label for="signer_email_' + n + '">Email</label>' +
+                    '<input type="email" id="signer_email_' + n + '" name="signer_email" required maxlength="200" autocomplete="off"></div>' +
+                    '<div class="field"><label for="signer_order_' + n + '">Signing order</label>' +
+                    '<select id="signer_order_' + n + '" name="signer_order">' +
+                    '<option value="all">All at once</option>' +
+                    '<option value="1">1</option><option value="2">2</option><option value="3">3</option>' +
+                    '<option value="4">4</option><option value="5">5</option>' +
+                    '</select></div>';
+                row.querySelector('.remove-signer').addEventListener('click', function() {
+                    row.remove();
+                    refreshSigners();
+                });
+                signersEl.appendChild(row);
+                refreshSigners();
+                return row;
+            }
+            function refreshSigners() {
+                const rows = signersEl.querySelectorAll('.signer-row');
+                rows.forEach(function(row, i) {
+                    row.querySelector('.signer-title').textContent = 'Signer ' + (i + 1);
+                    row.querySelector('.remove-signer').disabled = rows.length <= 1;
+                });
+                addBtn.disabled = rows.length >= MAX_SIGNERS;
+            }
+            addBtn.addEventListener('click', function() {
+                const row = addSignerRow();
+                if (row) row.querySelector('input').focus();
+            });
+            addSignerRow();
+
+            // --- PDF checks ---
+            let pdfjsPromise = null;
+            function loadPdfJs() {
+                if (!pdfjsPromise) {
+                    pdfjsPromise = import(PDFJS_BASE + 'pdf.min.mjs')
+                        .then(function(lib) {
+                            lib.GlobalWorkerOptions.workerSrc = PDFJS_BASE + 'pdf.worker.min.mjs';
+                            return lib;
+                        })
+                        .catch(function() { return null; });
+                }
+                return pdfjsPromise;
+            }
+            function withTimeout(promise, ms) {
+                return Promise.race([
+                    promise,
+                    new Promise(function(resolve) { setTimeout(function() { resolve(null); }, ms); }),
+                ]);
+            }
+            // Returns the page count, or null when it cannot be read here.
+            async function countPages(file) {
+                const lib = await withTimeout(loadPdfJs(), 8000);
+                if (!lib) return null;
+                let task = null;
+                try {
+                    const data = new Uint8Array(await file.arrayBuffer());
+                    task = lib.getDocument({ data: data, isEvalSupported: false });
+                    const doc = await withTimeout(task.promise, 15000);
+                    return doc ? doc.numPages : null;
+                } catch (_) {
+                    return null;
+                } finally {
+                    if (task) { try { task.destroy(); } catch (_) {} }
+                }
+            }
+
+            // Cache the result per file so submit does not parse twice.
+            let checked = { file: null, error: null };
+            async function checkPdf(file) {
+                if (checked.file === file) return checked.error;
+                let error = null;
+                const mb = (file.size / 1048576).toFixed(1) + ' MB';
+                if (!/\.pdf$/i.test(file.name)) {
+                    error = 'That file is not a PDF. Export or print it to PDF and try again.';
+                } else if (file.size === 0) {
+                    error = 'That file is empty.';
+                } else if (file.size > MAX_BYTES) {
+                    error = 'That PDF is ' + mb + '. The limit is 20 MB. Compress it or split it and try again.';
+                } else {
+                    setPdfNote('Checking the PDF...', null);
+                    const pages = await countPages(file);
+                    if (pages !== null && pages > MAX_PAGES) {
+                        error = 'That PDF has ' + pages + ' pages. The limit is ' + MAX_PAGES + '. Split it and send the parts separately.';
+                    } else if (pages !== null) {
+                        setPdfNote(pages + (pages === 1 ? ' page, ' : ' pages, ') + mb + '. Looks good.', 'is-ok');
+                    } else {
+                        setPdfNote(mb + '. We will count the pages on our side.', 'is-ok');
+                    }
+                }
+                if (error) setPdfNote(error, 'is-error');
+                checked = { file: file, error: error };
+                return error;
+            }
+            pdfInput.addEventListener('change', function() {
+                const file = pdfInput.files && pdfInput.files[0];
+                if (!file) {
+                    setPdfNote(PDF_HINT, null);
+                    return;
+                }
+                checkPdf(file);
+            });
+
+            // Turnstile tokens are single use, so get a fresh one after a failed send.
+            function resetTurnstile() {
+                if (!window.turnstile) return;
+                try { window.turnstile.reset(document.getElementById('turnstile-widget')); }
+                catch (_) { try { window.turnstile.reset(); } catch (__) {} }
+            }
+
+            // --- Submit ---
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                clearError();
+
+                const name = form.elements.name.value.trim();
+                const business = form.elements.business.value.trim();
+                const email = form.elements.email.value.trim();
+                const docName = form.elements.doc_name.value.trim();
+
+                if (!name || !business || !email) {
+                    showError('Your name, business name, and email are all required.');
+                    return;
+                }
+                if (!EMAIL_RE.test(email)) {
+                    showError('Your email address does not look right.');
+                    return;
+                }
+                if (!docName) {
+                    showError('Give the document a name so we can track it.');
+                    return;
+                }
+                const file = pdfInput.files && pdfInput.files[0];
+                if (!file) {
+                    showError('Attach the PDF you want signed.');
+                    return;
+                }
+
+                const rows = signersEl.querySelectorAll('.signer-row');
+                for (let i = 0; i < rows.length; i++) {
+                    const sName = rows[i].querySelector('[name="signer_name"]').value.trim();
+                    const sEmail = rows[i].querySelector('[name="signer_email"]').value.trim();
+                    const label = 'Signer ' + (i + 1);
+                    if (!sName || !sEmail) {
+                        showError(label + ' needs a name and an email.');
+                        return;
+                    }
+                    if (!EMAIL_RE.test(sEmail)) {
+                        showError(label + '\'s email address does not look right.');
+                        return;
+                    }
+                }
+
+                if (!form.elements.no_medical.checked) {
+                    showError('Confirm the document contains no medical or patient information.');
+                    return;
+                }
+
+                const tokenInput = form.querySelector('[name="cf-turnstile-response"]');
+                if (!tokenInput || !tokenInput.value) {
+                    showError('Finish the spam check above the button, then send again.');
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = 'Checking...';
+
+                const pdfError = await checkPdf(file);
+                if (pdfError) {
+                    showError(pdfError);
+                    resetButton();
+                    return;
+                }
+
+                btn.textContent = 'Uploading...';
+
+                try {
+                    // The browser sets the multipart boundary. Do not set Content-Type.
+                    const res = await fetch('/api/sign', {
+                        method: 'POST',
+                        body: new FormData(form),
+                    });
+
+                    let data = {};
+                    try { data = await res.json(); } catch (_) {}
+
+                    if (!res.ok || data.error || !data.ok) {
+                        showError(data.error || 'Something went wrong. Try again in a moment, or email info@tableandledger.com.');
+                        resetTurnstile();
+                        resetButton();
+                        return;
+                    }
+
+                    // Success
+                    document.getElementById('job-id').textContent = data.job_id || '';
+                    section.classList.add('is-submitted');
+                    window.scrollTo({ top: section.offsetTop - 20, behavior: 'smooth' });
+                } catch (err) {
+                    showError('Network hiccup. Try again, or email info@tableandledger.com.');
+                    resetTurnstile();
+                    resetButton();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

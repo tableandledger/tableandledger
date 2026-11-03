@@ -92,12 +92,65 @@ npx serve dist
 | Build output directory | `dist` |
 | Node.js version | 18+ |
 
+## Sign Concierge intake (/sign/)
+
+`sign/index.html` is the intake form for Sign Concierge, the done-for-you e-signature service. A client uploads one PDF (20 MB and 50 pages max), lists up to 5 signers with an optional signing order, adds an optional due date and notes, confirms the document has no medical or patient information, and passes a Cloudflare Turnstile check. The form posts multipart data to `functions/api/sign.js` at `/api/sign`, which checks the honeypot, verifies Turnstile, validates everything (including the `%PDF-` header and a best-effort page count), assigns a job id, and returns it to the client. The page is `noindex` for now.
+
+This is Option A, the email handoff: `storeAndNotify()` in `functions/api/sign.js` sends one Resend email to the back room with the upload attached as `source.pdf` and the manifest attached as `job.json`. An R2 swap is planned. When it happens, only `storeAndNotify()` changes.
+
+Plan requirement during Option A: Pages Functions run on the account's Workers plan, and base64-encoding a 20 MB upload needs more than the Free plan's 10 ms of CPU per request. The account is on Workers Paid (30 s default, upgraded 2026-11-03), so this is covered. If the account ever drops back to Free, large uploads will fail with a 1102 error until the R2 swap lands.
+
+Function logs carry the job id only. Never log names, email addresses, or document contents.
+
+### Environment variables
+
+| Variable | Status | What it does |
+|----------|--------|-------------|
+| `RESEND_API_KEY` | Existing (shared with `/api/contact`) | Sends the handoff email. |
+| `TURNSTILE_SECRET` | New, required | Turnstile widget secret key. Without it the function returns 500. |
+| `SIGN_NOTIFY_TO` | New, optional | Where the handoff email goes. Defaults to `info@tableandledger.com`. |
+
+### Dashboard steps (Donnie)
+
+1. Cloudflare dashboard, Turnstile, Add widget. Name it "Sign Concierge". Add the hostnames `tableandledger.com` and the Pages preview host `<project>.pages.dev` (a hostname covers its subdomains, so this covers `www.` and every preview deployment). Widget mode: Managed.
+2. Copy the site key into `sign/index.html`, replacing the test key `1x00000000000000000000AA` in the `data-sitekey` attribute (look for the HTML comment right above it).
+3. Copy the secret key. Workers & Pages, the tableandledger project, Settings, Variables and Secrets. Add `TURNSTILE_SECRET` as an encrypted secret for both Production and Preview.
+4. Optional: add `SIGN_NOTIFY_TO` the same way if the handoff should go somewhere other than `info@tableandledger.com`.
+5. Redeploy so the new variables take effect.
+
+### Local testing
+
+Create `.dev.vars` in the repo root (it is git-ignored, never commit it):
+
+```
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+RESEND_API_KEY=<a real Resend key>
+SIGN_NOTIFY_TO=<your own inbox>
+```
+
+`1x0000000000000000000000000000000AA` is Cloudflare's always-pass test secret: it accepts any token, including the dummy one the test site key in `sign/index.html` produces, so it cannot exercise the failure path. Use the always-fail secret `2x0000000000000000000000000000000AA` to test rejection. A production secret rejects the dummy token.
+
+Then build and serve with the functions running:
+
+```bash
+npm run build
+npx wrangler pages dev dist
+```
+
+Wrangler reads `.dev.vars` from the directory you run it in. Open the local URL it prints and go to `/sign/`.
+
 ## File structure
 
 ```
 tableandledger/
   index.html          # Homepage (hand-edited, copied to dist on build)
   donnie.jpg          # Headshot (copied to dist on build)
+  sign/               # Sign Concierge intake form (/sign/)
+    index.html
+  functions/          # Cloudflare Pages Functions (copied to dist on build)
+    api/
+      contact.js      # /api/contact, Ask and Waitlist forms
+      sign.js         # /api/sign, Sign Concierge intake
   package.json
   posts/              # Markdown blog posts
     food-cost-visibility-one-day.md

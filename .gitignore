@@ -5,3 +5,7 @@ dist/
 
 # Google Drive temp dir, never track
 .tmp.driveupload/
+
+# Local Wrangler secrets and state, never track
+.dev.vars
+.wrangler/
