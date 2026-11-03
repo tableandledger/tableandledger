@@ -98,7 +98,7 @@ npx serve dist
 
 This is Option A, the email handoff: `storeAndNotify()` in `functions/api/sign.js` sends one Resend email to the back room with the upload attached as `source.pdf` and the manifest attached as `job.json`. An R2 swap is planned. When it happens, only `storeAndNotify()` changes.
 
-Known limit during Option A: Pages Functions run on the Workers plan of the account. The Free plan allows 10 ms of CPU per request, and base64-encoding a 20 MB upload takes longer than that, so large uploads may fail with a 1102 error until the project is on Workers Paid or the R2 swap lands. Small PDFs are unaffected. Test with a real upload before opening the page to clients.
+Plan requirement during Option A: Pages Functions run on the account's Workers plan, and base64-encoding a 20 MB upload needs more than the Free plan's 10 ms of CPU per request. The account is on Workers Paid (30 s default, upgraded 2026-11-03), so this is covered. If the account ever drops back to Free, large uploads will fail with a 1102 error until the R2 swap lands.
 
 Function logs carry the job id only. Never log names, email addresses, or document contents.
 
