@@ -1,8 +1,8 @@
 /**
  * Table & Ledger -- Contact form handler
  *
- * Cloudflare Pages Function that receives POSTs from /ask/, /waitlist/, and
- * /square/ and sends an email via Resend. Deployed at /api/contact. The form_source
+ * Cloudflare Pages Function that receives POSTs from /ask/ and /waitlist/
+ * and sends an email via Resend. Deployed at /api/contact. The form_source
  * field (whitelisted) selects the subject/label; anything else falls back
  * to the Ask an Operator form.
  *
@@ -66,9 +66,8 @@ export async function onRequestPost(context) {
     }[c]));
 
     // Whitelisted form source -- the client cannot inject arbitrary subject text.
-    const labels = { waitlist: 'Waitlist', square: 'Try Square', ask: 'Ask an Operator' };
-    const source = Object.prototype.hasOwnProperty.call(labels, data.form_source) ? data.form_source : 'ask';
-    const formLabel = labels[source];
+    const source = data.form_source === 'waitlist' ? 'waitlist' : 'ask';
+    const formLabel = source === 'waitlist' ? 'Waitlist' : 'Ask an Operator';
 
     const subjectParts = [name];
     if (restaurant) subjectParts.push(restaurant);

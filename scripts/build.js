@@ -341,11 +341,6 @@ function buildSitemap(posts) {
         <loc>https://tableandledger.com/waitlist/</loc>
         <lastmod>${now}</lastmod>
         <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://tableandledger.com/square/</loc>
-        <lastmod>${now}</lastmod>
-        <priority>0.8</priority>
     </url>`;
 
     for (const post of posts) {
@@ -390,7 +385,6 @@ Table & Ledger is the consulting practice of Donnie McClanahan, a Forward Deploy
 - [Field Notes](https://tableandledger.com/blog/): Index of all essays and field notes.
 - [Ask an Operator](https://tableandledger.com/ask/): Free-form question form — a real answer from a working operator, no sales funnel.
 - [Join the Waitlist](https://tableandledger.com/waitlist/): Table & Ledger is currently booked; new engagements start from the waitlist, case by case.
-- [Try Square Free](https://tableandledger.com/square/): Contact form for operators who want to try Square; Donnie is a Square reseller and answers each note himself.
 
 ## Field Notes
 `;
