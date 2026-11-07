@@ -3,7 +3,7 @@ title: It Used to Be a Vendor. Now It Is a Sentence.
 date: 2026-11-06
 category: Field Note
 slug: it-used-to-be-a-vendor
-lede: "Square just made every seller a developer. I tested that on the one report I have wanted for years, and filmed the whole build. Seven minutes, real time, real numbers."
+lede: "Square just made every seller a developer. I tested that on the one report I have wanted for years, and filmed the whole build. Seven minutes, real time, real numbers. Every link you need to try it yourself is at the bottom."
 ---
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; margin: 0 0 2.5rem;">
@@ -52,11 +52,12 @@ Describe the thing you have wanted for years. Then come back and tell me what yo
 
 ## Try It Yourself
 
-Here are the links.
+Everything I used is public. Here are the links.
 
 - **The video.** [Built in a Sentence, episode one](https://youtu.be/xhWtmnXGn5w), on the [Table & Ledger channel](https://www.youtube.com/@TableandLedger).
-- **Square's tools.** Square has more to say about this next week. I will add the links here when it does.
-- **The AI I used.** [Claude Code](https://claude.com/claude-code), on my own subscription.
+- **Square's page.** [Run your whole business with the agent you already use](https://developer.squareup.com/us/en/agents).
+- **The Square CLI.** [The documentation](https://developer.squareup.com/docs/cli) and [the source on GitHub](https://github.com/square/cli). The install line is `npm install -g @square/cli`.
+- **The AI I used.** [Claude Code](https://claude.com/claude-code), on my own subscription. Square's page says it works with the agent you already have.
 
 ## Not on Square Yet?
 
