@@ -56,6 +56,7 @@ Everything I used is public. Here are the links.
 
 - **The video.** [Built in a Sentence, episode one](https://youtu.be/xhWtmnXGn5w), on the [Table & Ledger channel](https://www.youtube.com/@TableandLedger).
 - **Square's page.** [Run your whole business with the agent you already use](https://developer.squareup.com/us/en/agents).
+- **Squaremates.** [Square's agent, public as of November 12, 2026](https://squareup.com/us/en/squaremates), and [the announcement](https://squareup.com/us/en/press/introducing-squaremates) that covers Squaremates, the Square CLI, Square MCP, and Squaremates Apps.
 - **The Square CLI.** [The documentation](https://developer.squareup.com/docs/cli) and [the source on GitHub](https://github.com/square/cli). The install line is `npm install -g @square/cli`.
 - **The AI I used.** [Claude Code](https://claude.com/claude-code), on my own subscription. Square's page says it works with the agent you already have.
 
